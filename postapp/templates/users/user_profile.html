@@ -5,11 +5,12 @@
 <div class="container">
    
 <div class="row">
+  
   {%if user_profile%}
 
 <div class="col-md-5">
 
-<img src="{{user_profile.profile_pic.url}}" class="img-responsive img-circle center-block" alt="" style="width: 300px; height: 240px;">
+<img src="{{user_profile.profile_pic.url}}" class="img-responsive img-circle center-block" alt="" style="width: 200px; height: 200px;">
 
 <br>
 
@@ -63,49 +64,48 @@
 </div>
 
 </div>
-<!-- <h1 style="text-align: center">Posts</h1><br>
+<h1 style="text-align: center">My Project</h1><br>
 <br>
 <hr>
 
 <div class="row">
   
-    {%for image in images%}
-    <div class="col-md-4">
-        {% if user_profile%}
-        <div class="row">
-          
-          <img src="{{user_profile.profile_pic.url}}" class="img-responsive img-circle" alt="" style="width:50px;height:50px;border-radius:118px;">
-            <h6><strong>{{user_profile.user.username}}</strong></h6>
-        </div>
+    {%for project in projects%}
+                <div class="col-md-7">
+                    {% if user_profile%}
+                    <div class="row">
+                      
+                      <img src="{{user_profile.profile_pic.url}}" class="img-responsive img-circle" alt="" style="width:50px;height:50px;border-radius:118px;">
+                        <h6><strong>{{user_profile.user.username}}</strong></h6>
+                    </div>
+                    
+                    {%endif%}
+                    
+                    <img src="{{project.image.url}}" class="img-responsive" alt="" style="width: 300px; height: 240px;">
+                    <h4 style="text-align: center"><strong>Title:</strong> {{project.title}}</h4>
+
+                    <h6><strong>{{project.user.username}}: </strong>
+                        <span>
+                          {% autoescape on %}
+                                {{project.description| safe}}
+                               {% endautoescape %}
+                              </span> </h6>
+
+                    <h4>Link to the project: {{project.link_of_site}}</h4>
+                          <p style="text-align: center">{{project.pub_date|timesince}}</p>
+              
+              
         
-        {%endif%}
-        
-        <img src="{{image.image.url}}" class="img-responsive" alt="" style="width: 300px; height: 240px;">
-
-        <a class="glyphicon glyphicon-heart" href="{% url 'like' id=image.id%}"></a>
-        <a class="far fa-comment" href="{% url 'new-comment' image.id%}"></a>
-        <p>{{image.likes}} <strong>Likes</strong></p>
-
-        <h6><strong>{{image.user.username}}: </strong>
-            <span>
-              {% autoescape on %}
-                    {{image.caption| safe}}
-                   {% endautoescape %}
-                  </span> </h6>
-              <p style="text-align: center">{{image.pub_date|timesince}}</p>
-  
-  {% for com in image.comment_set.all %}
-  <span><p><strong>{{com.user.username}}:</strong> {{com.comment}}</p></span>
-  {%endfor%}
+            
+            </div>
+                {%endfor%}
 
 
-</div>
-    {%endfor%}
   </div>
-</div> -->
+</div>
 
      
-     </div>
+     
  
    
 
