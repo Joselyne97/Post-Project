@@ -12,7 +12,35 @@
         {% block content %}
         <div class="container">
 
+                {%for project in projects%}
+                <div class="col-md-7">
+                    {% if user_profile%}
+                    <div class="row">
+                      
+                      <img src="{{user_profile.profile_pic.url}}" class="img-responsive img-circle" alt="" style="width:50px;height:50px;border-radius:118px;">
+                        <h6><strong>{{user_profile.user.username}}</strong></h6>
+                    </div>
+                    
+                    {%endif%}
+                    
+                    <img src="{{project.image.url}}" class="img-responsive" alt="" style="width: 300px; height: 240px;">
+                    <h4 style="text-align: center"><strong>Title:</strong> {{project.title}}</h4>
 
+                    <h4><strong>{{project.user.username}}: </strong>
+                        <span>
+                          {% autoescape on %}
+                                {{project.description| safe}}
+                               {% endautoescape %}
+                              </span> </h4>
+
+                    <!-- <a href="#">{{project.link_of_site}} </a> -->
+                          <p style="text-align: center">{{project.pub_date|timesince}}</p>
+              
+              
+        
+            
+            </div>
+                {%endfor%}
 
 
 
