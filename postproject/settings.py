@@ -68,6 +68,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 INSTALLED_APPS = [
 
+    'rest_framework',
     'tinymce',
     'bootstrap4',
     'postapp.apps.PostappConfig',
