@@ -10,6 +10,9 @@ from tinymce.models import HTMLField
 
 urlpatterns=[
     url(r'^$', views.welcome, name="welcome"),
+    url(r'^profile$', views.user_profile, name='user-profile'),
+    url(r'^editprofile$', views.edit_profile, name="edit-profile"),
+    
 
 
     
