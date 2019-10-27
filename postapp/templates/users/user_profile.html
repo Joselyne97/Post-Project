@@ -2,7 +2,48 @@
 
 {% block styles %}
 <style>
+.site{
+    position: relative;
+  width: 50%;
+}
 
+.images {
+  display: block;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+  opacity: 1;
+  width: 100%;
+}
+
+.overlay {
+  position: absolute;
+  top: 150px;
+  
+  left: 150px;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+  transition: .5s ease;
+  opacity: 0;
+  
+}
+
+.text {
+  background-color: blueviolet;
+  color: white;
+  font-size: 25px;
+  padding: 16px 32px;
+  margin-left: 100px;
+  margin-right: 50px;
+}
+
+.site:hover .images{
+    opacity: 0.4;
+}
+.site:hover .overlay{
+    opacity: 1;
+}
 
 </style>
 {% endblock %}
@@ -88,8 +129,17 @@
                     
                     {%endif%}
                     <h4 style="text-align: center;font-family: Great Vibes;"><strong>Title:</strong> {{project.title}}</h4>
-                    <a href="{{project.link}}" target="_blank">
-                    <img src="{{project.image.url}}" class="img-responsive" alt="{{project.title}}" style="width: 300px; height: 240px;">
+                    <a href="{{project.link}}" target="_blank" class="site">
+
+
+                        <div class="images">
+                            <img src="{{project.image.url}}" class="img-responsive" alt="{{project.title}}" style="width: 370px; height: 300px;">
+                       </div>
+    
+                       <div class="overlay">
+                           <h5 class="text">land on the page</h5>
+    
+                       </div>
                     </a>
 
                     <a class="far fa-comment" href="{% url 'new-comment' project.id%}"></a><br>

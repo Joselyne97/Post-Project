@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.http  import HttpResponse,Http404,HttpResponseRedirect
 import datetime as dt
 from .models import Profile,Project,Comment
-from .forms import NewProfileForm,NewProjectForm,NewCommentForm
+from .forms import NewProfileForm,NewProjectForm,NewCommentForm,VoteForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializer import ProfileSerializer,ProjectSerializer
 from rest_framework import status
+from django.db.models import Max,F
 
 
 
@@ -19,7 +20,11 @@ def welcome(request):
     user_profile= Profile.objects.filter(user=current_user.id).first()
     comment= Comment.objects.filter(user=current_user.id).first()
     projects = Project.objects.all()
-    return render(request, 'users/index.html', {'user_profile':user_profile, 'projects':projects, 'comment':comment})
+    average=0
+    for project in projects:
+        average=(project.design + project.userbility + project.content)/3
+        best_rating = round(average,2)
+    return render(request, 'users/index.html', {'user_profile':user_profile, 'projects':projects, 'comment':comment, 'best_rating':best_rating})
 
 
 @login_required(login_url='/accounts/login/')
@@ -75,12 +80,12 @@ def new_project(request):
 
 def search_results(request):
 
-    if 'project' in request.GET and request.GET["project"]:
-        search_term = request.GET.get("project")
-        searched_projects = Project.search_by_title(search_term)
+    if 'title' in request.GET and request.GET["title"]:
+        search_term = request.GET.get("title")
+        searched_projects = Project.search_project(search_term)
+        current_user=request.user
         message = f"{search_term}"
-
-        return render(request, 'users/search.html',{"message":message,"articles": searched_projects})
+        return render(request, 'users/search.html',{"message":message,"titles": searched_projects})
 
     else:
         message = "You haven't searched for any term"
@@ -122,6 +127,36 @@ class ProjectList(APIView):
         return Response(serializers.data)
 
     
+@login_required(login_url='/accounts/login/')
+def rating(request,id):
+    project = Project.objects.get(id=id)
+    rating=round(((project.design + project.usability + project.content)/3),1)
+    if request.method == 'POST':
+        form=VoteForm(request.POST)
+        if form.is_valid:
+            project.vote +=1
+            if project.design ==0:
+                project.design == int(request.POST['design'])
+
+            else:
+                project.design = (project.design + int(request.POST['design']))/2
+
+            if project.usability == 0:
+                project.usability = int(request.POST['usability'])
+            else:
+                project.usability = (project.design + int(request.POST['usability']))/2
+            if project.content == 0:
+                project.content = int(request.POST['content'])
+            else:
+                project.content = (project.design + int(request.POST['content']))/2
+            project.save()
+            return redirect('welcome')
+    else:
+        form = VoteForm()
+    return render(request,'users/vote.html',{'form':form,'project':project,'rate':rate})    
+
+
+
 
 
 

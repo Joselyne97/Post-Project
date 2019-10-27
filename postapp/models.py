@@ -38,7 +38,10 @@ class Project(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=True, null=True)
     comments=models.CharField(max_length=100, blank=True)
-    # design=models.I
+    design=models.IntegerField(choices=list(zip(range(0,11), range(0,11))),default=0)
+    usability=models.IntegerField(choices=list(zip(range(0,11), range(0,11))),default=0)
+    content=models.IntegerField(choices=list(zip(range(0,11), range(0,11))),default=0)
+    vote=models.IntegerField(blank=True, null=True, default=0)
     pub_date = models.DateTimeField(auto_now_add=True)
 
 
@@ -63,9 +66,9 @@ class Project(models.Model):
         return projects
 
     @classmethod
-    def search_by_title(cls,search_term):
-        projects = cls.objects.filter(title__icontains=search_term)
-        return projects
+    def search_project(cls,title):
+        title = cls.objects.filter(title__icontains=title)
+        return title
 
 
 class Comment(models.Model):
