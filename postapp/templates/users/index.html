@@ -10,10 +10,11 @@
 <body>
 
         {% block content %}
+        <br><br><br>
         <div class="container">
 
                 {%for project in projects%}
-                <div class="col-md-7">
+                <div class="col-md-6">
                     {% if user_profile%}
                     <div class="row">
                       
@@ -22,21 +23,25 @@
                     </div>
                     
                     {%endif%}
-                    
-                    <img src="{{project.image.url}}" class="img-responsive" alt="" style="width: 300px; height: 240px;">
-                    <h4 style="text-align: center"><strong>Title:</strong> {{project.title}}</h4>
-
-                    <h4><strong>{{project.user.username}}: </strong>
+                     <h4 style="text-align: center;font-family: Great Vibes;"><strong>Title:</strong> {{project.title}}</h4><br>
+                     <a href="{{project.link}}" target="_blank">
+                    <img src="{{project.image.url}}" class="img-responsive" alt="{{project.title}}" style="width: 370px; height: 300px;">
+                   </a>
+                    <a class="far fa-comment" href="{% url 'new-comment' project.id%}"></a><br>
+                    <h4 style="text-align: center;font-size: 20px;font-family: Great Vibes;"><strong>{{project.user.username}}: </strong>
                         <span>
                           {% autoescape on %}
                                 {{project.description| safe}}
                                {% endautoescape %}
                               </span> </h4>
 
-                    <!-- <a href="#">{{project.link_of_site}} </a> -->
-                          <p style="text-align: center">{{project.pub_date|timesince}}</p>
+                    
+                          <p style="text-align: center;font-size: 20px;font-family: Great Vibes;">{{project.pub_date|timesince}}</p>
               
-              
+                          {% for com in image.comment_set.all %}
+                          <span><p><strong>{{com.user.username}}:</strong> {{com.comment}}</p></span>
+                          {%endfor%}
+                    
         
             
             </div>
@@ -44,7 +49,7 @@
 
 
 
-        </div>
+        </div><hr>
 
 
         {% endblock %}

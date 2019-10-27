@@ -13,7 +13,7 @@ class Profile(models.Model):
     user=models.OneToOneField(User, on_delete=models.CASCADE, blank=True)
     email=models.EmailField()
     phone_number = models.CharField(max_length =30,blank =True)
-    
+    # user_project=models.ForeignKey(Project, on_delete=models.CASCADE)
     @classmethod
     def update_profile(cls,id,value):
         cls.objects.filter(id=id).update(user_id = new_user)
@@ -34,10 +34,11 @@ class Project(models.Model):
     title = models.CharField(max_length =60)
     image=models.ImageField(upload_to = 'pic/', blank=False, null=False)
     description=HTMLField()
-    link_of_site=models.URLField(max_length=500)
+    link=models.URLField()
     user = models.ForeignKey(User, on_delete=models.CASCADE,)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=True, null=True)
-    # comments=models.CharField(max_length=100, blank=True)
+    comments=models.CharField(max_length=100, blank=True)
+    # design=models.I
     pub_date = models.DateTimeField(auto_now_add=True)
 
 
@@ -61,9 +62,29 @@ class Project(models.Model):
         projects=cls.objects.all().prefetch_related('comment_set')
         return projects
 
+    @classmethod
+    def search_by_title(cls,search_term):
+        projects = cls.objects.filter(title__icontains=search_term)
+        return projects
 
 
+class Comment(models.Model):
+    comment = models.CharField(max_length=100, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    pub_date = models.DateTimeField(auto_now_add=True)
 
+    def save_comment(self):
+        self.save()
+
+    def delete_comment(self):
+        self.delete()
+
+    def update_comment(self):
+        self.update()
+
+    def __str__(self):
+        return self.comment
 
 
 

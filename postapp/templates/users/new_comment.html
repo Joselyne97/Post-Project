@@ -9,7 +9,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>New Post</title>
+  <title>New Comment</title>
   {{form.media}}
 
 {% block styles %} {% bootstrap_css %}
@@ -19,8 +19,8 @@
 
 <body>
   {% block content %}
-  <br><br><br><br><br><br><br>
-  <form  action="{%url 'new-project'%}" method="post" enctype="multipart/form-data">
+  <br><br><br><br><br><br><br><br><br><br><br><br><br>
+  <form  action="{%url 'new-comment' image_id%}" method="post" enctype="multipart/form-data">
     {%csrf_token%}
 
     {% bootstrap_form form %}
