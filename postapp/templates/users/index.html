@@ -88,7 +88,7 @@
                 </a>
                     
                    
-                   <a class="far fa-comment" href="{% url 'new-comment' project.id%}"></a><br>
+                   
                     <h4 style="text-align: center;font-size: 20px;font-family: Great Vibes;"><strong>{{project.user.username}}: </strong>
                         <span>
                           {% autoescape on %}
@@ -96,21 +96,18 @@
                                {% endautoescape %}
                               </span> </h4>
 
-                              <a href="{% url 'rate' id=project.id%}" data-toggle="modal" data-target="#{{project.id}}">Vote</a><br>
+                              <a href="{% url 'rating' project.id%}">Rate</a><br>
 
                               <h4><strong>Design:</strong>{{project.design}}</h4>
                        <h4><strong>Usability:</strong>{{project.usability}}</h4>
-                       <h4><strong>content:</strong>{{project.content}}</h4>
-                       <h4>By <span>{{project.user.username}}</span> with <span>{{rating}}</span></h4>
+                       <h4><strong>Content:</strong>{{project.content}}</h4>
+                       <h4> <span>{{project.user.username}}</span> with <span>{{rating}}</span></h4>
 
 
 
                           <p style="text-align: center;font-size: 20px;font-family: Great Vibes;">{{project.pub_date|timesince}}</p>
               
-                          {% for com in image.comment_set.all %}
-                          <span><p><strong>{{com.user.username}}:</strong> {{com.comment}}</p></span>
-                          {%endfor%}
-                    
+                          
         
             
             </div>

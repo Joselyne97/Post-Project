@@ -16,8 +16,7 @@ urlpatterns=[
     url(r'^api/profile/$', views.ProfileList.as_view(), name='profile-API'),
     url(r'^api/project/$', views.ProjectList.as_view(), name='project-API'),
     url(r'^search/', views.search_results, name='search_results'),
-    url(r'^newcomment/(\d+)/$', views.new_comment, name='new-comment'),
-    url(r'^vote/(?P<id>\d+)', views.rating, name='rate'),
+    url(r'^vote/(\d+)', views.rating,name='rating'),
 ]
 
 if settings.DEBUG:

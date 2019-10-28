@@ -1,5 +1,5 @@
 from django import forms
-from .models import Profile,Project,Comment
+from .models import Profile,Project
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 
@@ -11,13 +11,13 @@ class NewProfileForm(forms.ModelForm):
 class NewProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        exclude = ['user', 'profile','comments']   
+        exclude = ['user', 'profile','comments','design','usability','content','vote']   
 
 
-class NewCommentForm(forms.ModelForm):
-    class Meta:
-        model = Comment
-        exclude = ['user','project']
+# class NewCommentForm(forms.ModelForm):
+#     class Meta:
+#         model = Comment
+#         exclude = ['user','project']
 
 
 class VoteForm(forms.ModelForm):
