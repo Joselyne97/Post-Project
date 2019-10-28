@@ -20,11 +20,11 @@ def welcome(request):
     user_profile= Profile.objects.filter(user=current_user.id).first()
     projects = Project.objects.all()
     average=0
-    
+
     for project in projects:
         average=(project.design + project.usability + project.content)/3
         best_rating = round(average,2)
-    return render(request, 'users/index.html', {'user_profile':user_profile, 'projects':projects, 'best_rating':best_rating})
+    return render(request, 'users/index.html', {'user_profile':user_profile, 'projects':projects,'best_rating':best_rating})
 
 
 @login_required(login_url='/accounts/login/')
@@ -112,11 +112,11 @@ class ProjectList(APIView):
 def rating(request,project_id):
     
     project = Project.get_project(project_id)
-    rating=round(((project.design + project.usability + project.content)/3),1)
+    rating=round(((project.design + project.usability + project.content)/3),2)
     if request.method == 'POST':
         form=VoteForm(request.POST)
         if form.is_valid:
-            project.vote +=1
+            project.vote+=1
             if project.design ==0:
                 project.design == int(request.POST['design'])
 
@@ -126,11 +126,11 @@ def rating(request,project_id):
             if project.usability == 0:
                 project.usability = int(request.POST['usability'])
             else:
-                project.usability = (project.design + int(request.POST['usability']))/2
+                project.usability = (project.usability + int(request.POST['usability']))/2
             if project.content == 0:
                 project.content = int(request.POST['content'])
             else:
-                project.content = (project.design + int(request.POST['content']))/2
+                project.content = (project.content + int(request.POST['content']))/2
             project.save()
             return redirect('welcome')
     else:
