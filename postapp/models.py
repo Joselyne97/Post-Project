@@ -41,7 +41,7 @@ class Project(models.Model):
     design=models.IntegerField(choices=list(zip(range(0,11), range(0,11))),default=0)
     usability=models.IntegerField(choices=list(zip(range(0,11), range(0,11))),default=0)
     content=models.IntegerField(choices=list(zip(range(0,11), range(0,11))),default=0)
-    vote=models.IntegerField(blank=True, null=True, default=0)
+    vote=models.IntegerField(default=0)
     pub_date = models.DateTimeField(auto_now_add=True)
 
 
@@ -65,10 +65,10 @@ class Project(models.Model):
     #     projects=cls.objects.all().prefetch_related('comment_set')
     #     return projects
 
-    @classmethod
-    def get_project(cls,project):
-        project=cls.objects.get(id=project)
-        return project
+    # @classmethod
+    # def get_project(cls,project):
+    #     project=cls.objects.get(id=project)
+    #     return project
 
     @classmethod
     def search_project(cls,title):

@@ -109,10 +109,10 @@ class ProjectList(APIView):
 
     
 @login_required(login_url='/accounts/login/')
-def rating(request,project_id):
+def rating(request,id):
     
-    project = Project.get_project(project_id)
-    rating=round(((project.design + project.usability + project.content)/3),2)
+    project=Project.objects.get(id=id)
+    rating=round(((project.design + project.usability + project.content)/3),1)
     if request.method == 'POST':
         form=VoteForm(request.POST)
         if form.is_valid:
@@ -126,11 +126,11 @@ def rating(request,project_id):
             if project.usability == 0:
                 project.usability = int(request.POST['usability'])
             else:
-                project.usability = (project.usability + int(request.POST['usability']))/2
+                project.usability = (project.design + int(request.POST['usability']))/2
             if project.content == 0:
                 project.content = int(request.POST['content'])
             else:
-                project.content = (project.content + int(request.POST['content']))/2
+                project.content = (project.design + int(request.POST['content']))/2
             project.save()
             return redirect('welcome')
     else:
