@@ -97,16 +97,21 @@
 
                               <a href="{% url 'rating' project.id%}"><button type="submit" class="btn btn-success btn-lg">Rate</button></a><br>
 
-                              <h4><strong>Design:</strong>{{project.design}}</h4>
+                              <h4><strong>Design:</strong>{{project.design }}</h4>
                        <h4><strong>Usability:</strong>{{project.usability}}</h4>
                        <h4><strong>Content:</strong>{{project.content}}</h4>
-                       <h4> <span>{{project.user.username}}</span> with <span>{{rating}}</span></h4>
+                       <h4><strong>Average:</strong>{{rating}}</span></h4>
+                       
 
+                       <a href="{% url 'new-comment' project.id%}"><button type="submit" class="btn btn-primary">Comment</button></a>
 
 
                           <p style="text-align: center;font-size: 20px;font-family: Great Vibes;">{{project.pub_date|timesince}}</p>
               
-                          
+                        
+                          {% for com in project.comment_set.all %}
+                  <span><p><strong>{{com.user.username}}:</strong> {{com.comment}}</p></span>
+                  {%endfor%}
         
             
             </div><hr>

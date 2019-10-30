@@ -1,8 +1,8 @@
 from django.shortcuts import render,redirect
 from django.http  import HttpResponse,Http404,HttpResponseRedirect
 import datetime as dt
-from .models import Profile,Project
-from .forms import NewProfileForm,NewProjectForm,VoteForm
+from .models import Profile,Project,Comment
+from .forms import NewProfileForm,NewProjectForm,VoteForm,NewCommentForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -18,13 +18,14 @@ from django.db.models import Max,F
 def welcome(request):
     current_user = request.user
     user_profile= Profile.objects.filter(user=current_user.id).first()
+    comment= Comment.objects.filter(user=current_user.id).first()
     projects = Project.objects.all()
     average=0
 
     for project in projects:
         average=(project.design + project.usability + project.content)/3
         rating = round(average,2)
-    return render(request, 'users/index.html', {'user_profile':user_profile, 'projects':projects,'rating':rating})
+    return render(request, 'users/index.html', {'user_profile':user_profile, 'projects':projects,'rating':rating,'comment':comment})
 
 
 @login_required(login_url='/accounts/login/')
@@ -118,7 +119,7 @@ def rating(request,id):
         if form.is_valid:
             project.vote+=1
             if project.design ==0:
-                project.design == int(request.POST['design'])
+                project.design = int(request.POST['design'])
 
             else:
                 project.design = (project.design + int(request.POST['design']))/2
@@ -137,6 +138,26 @@ def rating(request,id):
         form = VoteForm()
     return render(request,'users/vote.html',{'form':form,'project':project,'rating':rating})    
 
+
+@login_required(login_url='/accounts/login/')
+def new_comment(request, project_id):
+    current_user = request.user
+    project = Project.objects.get(id=project_id)
+    profile = Profile.objects.filter(user=current_user.id).first()
+    if request.method == 'POST':
+        form=NewCommentForm(request.POST, request.FILES)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = current_user
+            comment.project=project
+            comment.save()
+            
+            return redirect('welcome')
+
+    else:
+        form = NewCommentForm()
+
+    return render(request, 'users/new_comment.html', {'form': form,'profile':profile, 'project':project, 'project_id':project_id})
 
 
 

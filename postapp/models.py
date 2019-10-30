@@ -60,10 +60,10 @@ class Project(models.Model):
         
         return description
 
-    # @classmethod
-    # def get_projects(cls):
-    #     projects=cls.objects.all().prefetch_related('comment_set')
-    #     return projects
+    @classmethod
+    def get_projects(cls):
+        projects=cls.objects.all().prefetch_related('comment_set')
+        return projects
 
     # @classmethod
     # def get_project(cls,project):
@@ -76,23 +76,23 @@ class Project(models.Model):
         return title
 
 
-# class Comment(models.Model):
-#     comment = models.CharField(max_length=100, blank=True)
-#     user = models.ForeignKey(User, on_delete=models.CASCADE,)
-#     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-#     pub_date = models.DateTimeField(auto_now_add=True)
+class Comment(models.Model):
+    comment = models.CharField(max_length=100, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    pub_date = models.DateTimeField(auto_now_add=True)
 
-#     def save_comment(self):
-#         self.save()
+    def save_comment(self):
+        self.save()
 
-#     def delete_comment(self):
-#         self.delete()
+    def delete_comment(self):
+        self.delete()
 
-#     def update_comment(self):
-#         self.update()
+    def update_comment(self):
+        self.update()
 
-#     def __str__(self):
-#         return self.comment
+    def __str__(self):
+        return self.comment
 
 
 

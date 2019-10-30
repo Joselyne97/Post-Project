@@ -17,6 +17,8 @@ urlpatterns=[
     url(r'^api/project/$', views.ProjectList.as_view(), name='project-API'),
     url(r'^search/', views.search_results, name='search_results'),
     url(r'^vote/(?P<id>\d+)', views.rating,name='rating'),
+    url(r'^newcomment/(\d+)/$', views.new_comment, name='new-comment'),
+    
 ]
 
 if settings.DEBUG:
