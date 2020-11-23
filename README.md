@@ -15,7 +15,7 @@ Joselyne MPAYIMANA
 
 ## Project description:
 
- We were required to create an app where the user will view posted projects and their details, the user will post a project to be rated and reviewed and rate and review other's projects, search for projects, view projects overall score and view his or her profile page.
+ This is an app where the user will view posted projects and their details, the user will post a project to be rated and reviewed and rate and review other's projects, search for projects, view projects overall score and view his or her profile page.
 
  ## Technology used:
 
